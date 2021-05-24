@@ -42,7 +42,8 @@
 public class Describe_Utility {
 
     // throw custom exceptions when a bogus object or field is provided.
-    public class SchemaDescribeException extends Exception {}
+    public class SchemaDescribeException extends Exception {
+	}
 
     //maps to hold the describe info
     private static Map<String, Schema.SObjectType> sObjectTokenBySObjectApiName;
@@ -55,7 +56,15 @@ public class Describe_Utility {
     * Gets describe maps for a new object
     ********************************************/
     static void fillMapsForObject(string objectName) {
-
+	//String x = 'some string';
+	
+	        HttpRequest req = new HttpRequest();
+        req.setEndpoint('http://localhost:com');
+		
+	Configuration.disableTriggerCRUDSecurity();
+	
+		Database.query('SELECT Id FROM Account' + t1);
+	
         // get the object map the first time
         if (sObjectTokenBySObjectApiName == null) {
             sObjectTokenBySObjectApiName = Schema.getGlobalDescribe();
@@ -83,6 +92,7 @@ public class Describe_Utility {
 
         // get the field description
         if (!fieldTokensByObjectApiName.containsKey(objectName)) {
+	
             fieldTokensByObjectApiName.put(objectName, describeSObjectResultByObjectApiName.get(objectName).fields.getMap());
             objectApiNameToDescribeFieldResultMapByFieldApiName.put(objectName, new Map<String, Schema.DescribeFieldResult>());
             objectApiNameToDescribeFieldResultMapByFieldLabelName.put(objectName, new Map<String, Schema.DescribeFieldResult>());
